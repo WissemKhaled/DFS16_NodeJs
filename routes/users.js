@@ -23,7 +23,9 @@ router.use(function(req, res, next) {
 })
 
 router.get('/', function(req, res, next) {
-  Mongo.getInstance().collection('rooms').find({owner: req.session.user._id}).toArray((err, rooms) => {
+  Mongo.getInstance().collection('rooms')
+  .find({$or : [{private: false}, {owner: req.session.user._id }] })
+  .toArray((err, rooms) => {
     res.render('users/dashboard', { title: 'Vous etes connecté', rooms:rooms, req:req });
 })
 });
@@ -44,8 +46,9 @@ router.post('/', function(req, res, next) {
         message: err.message
       })
     }
-    Mongo.getInstance().collection('rooms')
-    .find({$or : [ {owner: req.session.user._id }, {private: false} ] })
+    Mongo.getInstance()
+    .collection('rooms')
+    .find({$or : [{private: false}, {owner: req.session.user._id }] })
     // .find({owner: req.session.user._id})
     .toArray((err, rooms) => {
       res.render('users/dashboard', { title: 'Vous etes connecté', rooms:rooms, req:req });
