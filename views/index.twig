@@ -1,0 +1,42 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+<div id="loginForm">
+  <form action="/users" method="post" class="form-example" id="Connexion">
+      <label>Se Connecter :</label>
+      <div class="form-example">
+        <input type="text" name="email"  required placeholder="email">
+      </div>
+      <div class="form-example">
+        <input type="password" name="password"  placeholder="password" required>
+      </div>
+      <div class="form-example">
+        <input type="submit" value="Connection">
+      </div>
+  </form>
+  <button id='login-link'> Créer un compte</button>
+</div>
+
+<div id="creatForm" class='d-none'>
+  <form action="/users" method="post" class="form-example" id="Login">
+      <label>S'inscrire :</label>
+      <div class="form-example">
+        <input type="text" name="name" required placeholder="name">
+      </div>
+      <div class="form-example">
+        <input type="text" name="email"  required placeholder="email">
+      </div>
+      <div class="form-example">
+        <input type="password" name="password"  placeholder="password" required>
+      </div>
+      <div class="form-example">
+        <input type="password" name="password_confirm"  placeholder="confirmer password" required>
+      </div>
+      <div class="form-example">
+        <input type="submit" value="Inscription">
+      </div>
+  </form>
+  <button id='signin-link'>Se connecter</button>
+</div>
+
+{% endblock %}

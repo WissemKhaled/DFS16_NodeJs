@@ -1,0 +1,52 @@
+{% extends 'users/layout.twig' %}
+
+{% block body %}
+<!-- <h1> page d'admin </h1> -->
+<p>{{title}}</p>
+<button id="deco">Déconnexion</button>
+<button id="createRoom">Créer une salle</button>
+
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div id="addChatRoom">
+      <form action="/users" method="post" class="form-example" id="addSQL" enctype="multipart/form-data">
+        <label>titre</label>
+        <div class="form-example">
+          <input type="text" name="title" required placeholder="Titre" />
+        </div>
+        <div class="form-example">
+          <input type="submit" value="Enregistrer" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% for room in rooms %}
+<div class="room card mb-3">
+  <input type="hidden" value="{{ room._id }}">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{{ room.cover | default('https://via.placeholder.com/300x500')}}" class="card-img"
+        alt="{{ room.title }}-cover">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Titre : </h5><span>{{ room.title }}</span>
+        <button class="btn btn-link text-info" onclick="mod()" value="{{ room._id }}">
+          edit
+        </button>
+        <button class="btn btn-link text-danger" onclick="del()" value="{{ room._id }}">
+          delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}
