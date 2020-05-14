@@ -4,6 +4,7 @@ var createError = require('http-errors');
 var Mongo = require('../bin/mongo');
 var uniqid = require('uniqid');
 var crypto = require('crypto');
+const ObjectId = require('mongodb').ObjectId;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -67,4 +68,12 @@ router.post('/', function(req, res, next) {
   })
 });
 
+
+router.delete('/', function(req, res, next) {
+  req.session.destroy(function(err) {
+  })
+  return res.json({
+    status:true
+  });
+});
 module.exports = router;

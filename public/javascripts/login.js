@@ -84,9 +84,10 @@ if (document.getElementById('login-link')) {
 
 if (document.getElementById('deco')) {
     document.getElementById('deco').addEventListener('click', event => {
-        fetch('/users', {
+        fetch('/', {
             method: 'delete',
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
@@ -94,7 +95,8 @@ if (document.getElementById('deco')) {
         .then(function (r) { return r.json() })
         .then(function (response) {
             if (response.status) {
-                document.location.reload();
+                document.location.href = '/';
+
             } else {
                 alert('stop');
             }

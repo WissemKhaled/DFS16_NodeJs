@@ -2,16 +2,19 @@
 
 {% block body %}
 <!-- <h1> page d'admin </h1> -->
-<p>{{title}}</p>
-<button id="deco">Déconnexion</button>
-<button id="createRoom">Créer une salle</button>
-
+<div class="navDiv">
+  <p>{{title}} {{req.session.user.username}}</p>
+  <div>
+  <button id="deco">Déconnexion</button>
+  <button id="createRoom">Créer une salle</button>
+  </div>
+</div>
 <div id="myModal" class="modal">
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close">&times;</span>
     <div id="addChatRoom">
-      <form action="/users" method="post" class="form-example" id="addSQL" enctype="multipart/form-data">
+      <form action="/users" method="post" class="form-example" id="addSQL" enctype="application/x-www-form-urlencoded">
         <label>titre</label>
         <div class="form-example">
           <input type="text" name="title" required placeholder="Titre" />
@@ -25,28 +28,61 @@
 </div>
 
 
-{% for room in rooms %}
-<div class="room card mb-3">
-  <input type="hidden" value="{{ room._id }}">
-  <div class="row no-gutters">
-    <div class="col-md-4">
-      <img src="{{ room.cover | default('https://via.placeholder.com/300x500')}}" class="card-img"
-        alt="{{ room.title }}-cover">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title">Titre : </h5><span>{{ room.title }}</span>
-        <button class="btn btn-link text-info" onclick="mod()" value="{{ room._id }}">
-          edit
-        </button>
-        <button class="btn btn-link text-danger" onclick="del()" value="{{ room._id }}">
-          delete
-        </button>
+
+<div class="divStyle">
+  {% for room in rooms %}
+  <div class="room card mb-3">
+    <input type="hidden" value="{{ room._id }}">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img src="{{ room.cover | default('https://via.placeholder.com/300x500')}}" class="card-img"
+          alt="{{ room.title }}-cover">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">Titre : {{ room.title }}</h5>
+          {% if room.owner == req.session.user._id %}
+            <button class="btn btn-link text-info" onclick="mod()" value="{{ room._id }}">
+              edit
+            </button>
+            <button class="btn btn-link text-danger" onclick="del()" value="{{ room._id }}">
+              delete
+            </button>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
+  {% endfor %}
 </div>
+<div id="modalSQL"  class="modal">
+  <div class="modal-content">
+    <div id="modRoom">
+      <form action="/users" method="post" class="form-example" id="modSQL" enctype="multipart/form-data"  onsubmit="RoomEdition(event)">
+          
+          <label>Titre</label>
+          <div class="form-example">
+            <input id="updateTitle" type="text" name="title" required placeholder="Titre"/>
+          </div> 
+          <label>private</label>
+          <div class="form-example">
+            <input type="checkbox" name="private" id="updatePrivate" />
+          </div>
+          <label>Users</label>
+          <div class="form-example">
+            <select multiple name="users" class="form-control" id="users">
+              {% for user in Users %}
+                <option value ="user._id">{{user.username}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <input id="updateId" type="text" name="id" style="display: none;"/>
 
-{% endfor %}
-
+          <div class="form-example">
+            <input type="submit" value="Enregistrer"/>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}

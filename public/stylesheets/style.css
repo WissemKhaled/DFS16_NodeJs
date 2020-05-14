@@ -65,4 +65,18 @@ label {
   text-decoration: none;
   cursor: pointer; }
 
+.divStyle {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 50px; }
+
+.navDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+  .navDiv p {
+    margin: 0;
+    font-size: 35px; }
+
 /*# sourceMappingURL=style.css.map */

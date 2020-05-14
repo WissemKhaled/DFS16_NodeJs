@@ -1,3 +1,5 @@
+
+var Users = [];
 var modal = document.getElementById("myModal");
 
 // Get the button that opens the modal
@@ -31,3 +33,46 @@ window.addEventListener('click', event => {
     document.getElementById("modalSQL").style.display = "none";
   }
 })
+
+function mod() {
+
+  document.getElementById('modalSQL').style.display = "block";
+  var id = event.currentTarget.value;
+  fetch('/users/' + id, {
+      method: 'get',
+      headers: {
+          'Accept': 'application/json'
+      }
+  })
+      .then(function (r) { return r.json() })
+      .then(function (response) {
+          if (response.status) {
+              document.getElementById('updateId').value = response.result._id;
+              document.getElementById('updateTitle').value = response.result.title;
+              document.getElementById('updatePrivate').value = response.result.private;
+              // document.getElementById('updateUsers').value = response.resultUser;
+
+              Users = response.resultUser;
+          } else {
+              alert(response.message || 'Une erreur est survenue');
+          }
+      })
+}
+
+
+function del() {
+  fetch('/users/' + event.target.value, {
+      method: 'delete',
+      headers: {
+          'Accept': 'application/json'
+      }
+  })
+      .then(function (r) { return r.json() })
+      .then(function (response) {
+          if (response.status) {
+              document.location.reload();
+          } else {
+              alert(response.message || 'Une erreur est survenue');
+          }
+      })
+}
